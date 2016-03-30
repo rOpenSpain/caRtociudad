@@ -25,7 +25,7 @@ cartociudad_geocode <- function(full_address,
                 GET("http://www.cartociudad.es/CartoGeocoder/GeocodeAddress", query = api.args)
     
     res <- content(res, as = "text")
-    res <- fromJSON(res, simplifyDataFrame = TRUE)
+    res <- jsonlite::fromJSON(res, simplifyDataFrame = TRUE)
     
     if (!res$success){
       stop("Cartociudad found an error in your request: ", res$error$description)
