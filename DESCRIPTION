@@ -1,0 +1,15 @@
+Package: caRtociudad
+Type: Package
+Title: Interface to Cartociudad API
+Version: 0.0.1
+Date: 2016-03-30
+Encoding: UTF-8
+Authors@R: c(person("Carlos J.", "Gil Bellosta", email="cgb@datanalytics.com", role=c('cre', 'aut'))) 
+Author: Carlos J. Gil Bellosta
+Maintainer: Carlos J. Gil Bellosta <cgb@datanalytics.com>
+Description: Provides a set of functions for reading and writing PC-Axis files, used by different statistical organizations around the globe for data dissemination.
+Depends: httr, jsonlite
+URL: https://github.com/cjgb/caRtociudad
+License: GPL-3
+LazyLoad: yes
+LazyData: yes
