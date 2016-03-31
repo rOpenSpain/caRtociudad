@@ -4,3 +4,4 @@ importFrom("httr", GET, content)
 importFrom("jsonlite", fromJSON)
 
 export(cartociudad_geocode)
+export(get_cartociudadmap)
