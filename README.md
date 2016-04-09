@@ -39,7 +39,7 @@ Cartociudad maps can include different kinds of layers. The full list of availab
 Function `get_cartociudad_location_info` provindes administrative information on a point indicated by its coordinates. E.g.,
 
 ```
-get_cartociudad_location_info(40.473219,-3.7227241)
+get_cartociudad_location_info(40.473219,-3.7227241, year = 2015)
 ```
 indicates the province, municipality, censal section, and censal district associated to the point.
 
