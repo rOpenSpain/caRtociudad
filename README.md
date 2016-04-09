@@ -34,6 +34,16 @@ ggmap(mapa_soria)
 
 Cartociudad maps can include different kinds of layers. The full list of available layers can be consulted in the API reference manual (see above). 
 
+## Location info
+
+Function `get_cartociudad_location_info` provindes administrative information on a point indicated by its coordinates. E.g.,
+
+```
+get_cartociudad_location_info(40.473219,-3.7227241)
+```
+indicates the province, municipality, censal section, and censal district associated to the point.
+
+
 ## TODO
 
 Add extra API functionalities to the package.
