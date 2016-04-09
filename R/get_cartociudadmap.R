@@ -38,6 +38,7 @@ get_cartociudadmap <- function(center, radius,
   url <- "http://www.cartociudad.es/wms/CARTOCIUDAD/CARTOCIUDAD"
   
   res <- GET(url, query = query.parms)
+  stop_for_status(res)
   
   my.map <- content(res, as = "parsed", type = "image/png")
   my.map <- t(apply(my.map, 2, rgb))
