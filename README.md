@@ -41,7 +41,7 @@ Function `get_cartociudad_location_info` provindes administrative information on
 ```
 get_cartociudad_location_info(40.473219,-3.7227241, year = 2015)
 ```
-indicates the province, municipality, censal section, and censal district associated to the point.
+indicates the province, municipality, censal section, censal district, cadastral information and the url to the spanish cadastre website associated to the point.
 
 
 ## TODO

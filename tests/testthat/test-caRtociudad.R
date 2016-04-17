@@ -24,9 +24,11 @@ test_that("get_cartociudadmap returns a map for a valid location", {
 test_that("get_cartociudad_location_info returns info for a valid location", {
   result <- get_cartociudad_location_info(40.473219, -3.7227241, year = 2015)
   
-  expect_that(!is.null(result$seccion),   is_true())
-  expect_that(!is.null(result$distrito),  is_true())
-  expect_that(!is.null(result$provincia), is_true())
-  expect_that(!is.null(result$municipio), is_true())
+  expect_that(!is.null(result$seccion),           is_true())
+  expect_that(!is.null(result$distrito),          is_true())
+  expect_that(!is.null(result$provincia),         is_true())
+  expect_that(!is.null(result$municipio),         is_true())
+  expect_that(!is.null(result$ref.catastral),     is_true())
+  expect_that(!is.null(result$url.ref.catastral), is_true())
 })
 

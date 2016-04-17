@@ -1,6 +1,6 @@
 importFrom("httr", GET, content, stop_for_status)
 importFrom("jsonlite", fromJSON)
-importFrom("xml2", xml_length, xml_find_one, xml_attr)
+importFrom("xml2", xml_length, xml_find_one, xml_attr, xml_text)
 
 export(cartociudad_geocode)
 export(get_cartociudadmap)

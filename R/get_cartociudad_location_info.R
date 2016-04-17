@@ -3,13 +3,7 @@
 # Gets location info (mun, prov, censal section, etc.) for a location
 ##########################################################################
 
-get_cartociudad_location_info <- function(latitude, longitude, year = 2011){
-  
-  bbox1 <- latitude
-  bbox2 <- longitude
-  # if the bbox has no area, the request fails
-  bbox3 <- latitude  + 1e-5
-  bbox4 <- longitude + 1e-5
+get_cartociudad_census_info <- function(bbox, year) {
   
   # The layers are associated to the year
   layer.secciones <- paste0(year, "_Secciones")
@@ -17,7 +11,7 @@ get_cartociudad_location_info <- function(latitude, longitude, year = 2011){
   layers <- c(layer.secciones, layer.distritos)
   
   query.parms <- list(
-    bbox             = paste(bbox1, bbox2, bbox3, bbox4, sep = ","),
+    bbox             = paste(bbox,   collapse = ","),
     layers           = paste(layers, collapse = ","),
     query_layers     = paste(layers, collapse = ","),
     width            = 1,
@@ -48,4 +42,64 @@ get_cartociudad_location_info <- function(latitude, longitude, year = 2011){
        distrito  = xml_attr(node.dis, "CUDIS"),
        provincia = xml_attr(node.sec, "NPRO"),
        municipio = xml_attr(node.sec, "NMUN"))
+}
+
+get_cartociudad_cadastral_info <- function(bbox) {
+  
+  layer <- "Catastro"
+  # BBOX structure for cadastre API is (lon, lat, lon, lat)
+  bbox <- c(bbox[2], bbox[1], bbox[4], bbox[3])
+  
+  query.parms <- list(
+    bbox             = paste(bbox, collapse = ","),
+    layers           = layer,
+    query_layers     = layer,
+    width            = 101,
+    height           = 101,
+    X                = 50,
+    Y                = 50,
+    version          = "1.1.1",
+    format           = "image/png",
+    info_format      = "text/html",
+    service          = "WMS",
+    request          = "GetFeatureInfo",
+    styles           = "",
+    srs              = "EPSG:4258"  
+  )
+  
+  url <- "http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx"
+  
+  res <- GET(url, query = query.parms)
+  stop_for_status(res)
+  info <- content(res, "parsed")
+  
+  # Parse the response
+  if (is.null(info) || xml_length(info) == 0) {
+    return(list())
+  }
+  node <- xml_find_one(info, "//a[@href]")
+  
+  list(ref.catastral     = xml_text(node),
+       url.ref.catastral = xml_attr(node, "href"))
+}
+
+get_cartociudad_location_info <- function(latitude, longitude, year = 2011,
+                                          info.source = c("census", "cadastre")){
+  
+  bbox1 <- latitude
+  bbox2 <- longitude
+  # if the bbox has no area, the request fails
+  bbox3 <- latitude  + 1e-5
+  bbox4 <- longitude + 1e-5
+  bbox <- c(bbox1, bbox2, bbox3, bbox4)
+  
+  result <- list()
+  
+  if ("census" %in% info.source) {
+    result <- get_cartociudad_census_info(bbox, year)
+  }
+  if ("cadastre" %in% info.source) {
+    result <- append(result, get_cartociudad_cadastral_info(bbox))
+  }
+  result
 }
