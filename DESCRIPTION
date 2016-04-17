@@ -10,6 +10,7 @@ Author: Carlos J. Gil Bellosta, Luz Frías
 Maintainer: Carlos J. Gil Bellosta <cgb@datanalytics.com>
 Description: Access to Cartociudad cartography API, which provides mapping and other related services for Spain.
 Depends: httr, jsonlite, xml2
+Suggests: testthat
 URL: https://github.com/cjgb/caRtociudad
 License: GPL-3
 LazyLoad: yes
