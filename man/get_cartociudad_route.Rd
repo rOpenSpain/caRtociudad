@@ -1,0 +1,31 @@
+\name{get_cartociudad_route}
+\alias{get_cartociudad_route}
+
+\title{Driving and walking directions from Cartociudad API}
+
+\description{Cartociudad API provides driving and walking routes between two points. This function
+quieries the API and provides the user the data in convenient form.}
+
+\usage{
+get_cartociudad_route(latlon.orig, latlon.dest, vehicle = "car")
+}
+
+\arguments{
+  \item{latlon.orig}{Latitude and longitude of the starting point}
+  \item{latlon.dest}{Latitude and longitude of the destination point}
+  \item{vehicle}{Either \code{car} or \code{walking}}
+}
+
+\value{A list containing the fields described in Cartociudad API documentation (see the link below).}
+\references{
+\url{http://www.cartociudad.es/recursos/Documentacion_tecnica/CARTOCIUDAD_ServiciosWeb.pdf}
+}
+\author{Carlos J. Gil Bellosta}
+
+
+\examples{
+res <- get_cartociudad_route(c(39.48,-0.37), 
+   c(39.484336,-0.358171), 
+   vehicle = "car")
+}
+

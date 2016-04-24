@@ -1,7 +1,9 @@
 importFrom("httr", GET, content, stop_for_status)
 importFrom("jsonlite", fromJSON)
 importFrom("xml2", xml_length, xml_find_one, xml_attr, xml_text)
+importFrom("plyr", ldply)
 
 export(cartociudad_geocode)
 export(get_cartociudadmap)
 export(get_cartociudad_location_info)
+export(get_cartociudad_route)
