@@ -84,7 +84,7 @@ get_cartociudad_cadastral_info <- function(bbox) {
 }
 
 get_cartociudad_location_info <- function(latitude, longitude, year = 2011,
-                                          info.source = c("census", "cadastre")){
+                                          info.source = c("census", "cadastre", "reverse")){
   
   bbox1 <- latitude
   bbox2 <- longitude
@@ -101,5 +101,11 @@ get_cartociudad_location_info <- function(latitude, longitude, year = 2011,
   if ("cadastre" %in% info.source) {
     result <- append(result, get_cartociudad_cadastral_info(bbox))
   }
-  result
+  if ("reverse" %in% info.source) {
+    result <- append(result, cartociudad_reverse_geocode(latitude, longitude))
+  }
+  
+  # Avoid duplicated information. Different sources may both return results for
+  #  the same field (e.g. province)
+  result[unique(names(result))]
 }

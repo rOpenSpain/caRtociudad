@@ -22,6 +22,14 @@ my.address <- cartociudad_geocode(road_type = "plaza", road_name = "cascorro",
 print(my.address)
 ```
 
+## Reverse geocoding
+
+Function `cartociudad_reverse_geocode` returns the address details of a location.
+
+```
+cartociudad_reverse_geocode(40.45332, -3.69442)
+```
+
 ## Mapping
 
 Function `get_cartociudadmap` downloads static maps from Cartociudad servers and tries to imitate the behaviour of `ggmap::get_googlemap`.
@@ -41,7 +49,7 @@ Function `get_cartociudad_location_info` provindes administrative information on
 ```
 get_cartociudad_location_info(40.473219,-3.7227241, year = 2015)
 ```
-indicates the province, municipality, censal section, censal district, cadastral information and the url to the spanish cadastre website associated to the point.
+indicates the reverse geocoding details, censal section, censal district, cadastral information and the url to the spanish cadastre website associated to the point.
 
 
 ## TODO

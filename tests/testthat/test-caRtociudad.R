@@ -30,5 +30,23 @@ test_that("get_cartociudad_location_info returns info for a valid location", {
   expect_that(!is.null(result$municipio),         is_true())
   expect_that(!is.null(result$ref.catastral),     is_true())
   expect_that(!is.null(result$url.ref.catastral), is_true())
+  expect_that(!is.null(result$tipo),              is_true())
+  expect_that(!is.null(result$tipo.via),          is_true())
+  expect_that(!is.null(result$nombre.via),        is_true())
+  expect_that(!is.null(result$num.via),           is_true())
+  expect_that(!is.null(result$num.via.id),        is_true())
+  expect_that(!is.null(result$cod.postal),        is_true())
 })
 
+test_that("cartociudad_reverse_geocode returns an address for a valid location", {
+  result <- cartociudad_reverse_geocode(40.473219, -3.7227241)
+  
+  expect_that(!is.null(result$tipo),       is_true())
+  expect_that(!is.null(result$tipo.via),   is_true())
+  expect_that(!is.null(result$nombre.via), is_true())
+  expect_that(!is.null(result$num.via),    is_true())
+  expect_that(!is.null(result$num.via.id), is_true())
+  expect_that(!is.null(result$municipio),  is_true())
+  expect_that(!is.null(result$provincia),  is_true())
+  expect_that(!is.null(result$cod.postal), is_true())
+})
