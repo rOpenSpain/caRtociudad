@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>caRtociudad by cjgb</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>caRtociudad</h1>
+        <h2>R package to query cartociudad API</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/cjgb/caRtociudad/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/cjgb/caRtociudad/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/cjgb/caRtociudad" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a id="cartociudad" class="anchor" href="#cartociudad" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>caRtociudad</h1>
+
+<p>R package to query <a href="http://www.cartociudad.es">Cartociudad</a> API. The API is documented <a href="http://www.cartociudad.es/recursos/Documentacion_tecnica/CARTOCIUDAD_ServiciosWeb.pdf">here</a>.</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<pre><code>library(devtools)
+install_github("cjgb/caRtociudad")
+</code></pre>
+
+<h2>
+<a id="geocoding" class="anchor" href="#geocoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Geocoding</h2>
+
+<pre><code># using full address
+my.address &lt;- cartociudad_geocode("plaza de cascorro 11, 28005 madrid")
+print(my.address)
+
+# using address chunks
+my.address &lt;- cartociudad_geocode(road_type = "plaza", road_name = "cascorro",
+    zip = "28012", municipality = "madrid", province = "madrid")
+print(my.address)
+</code></pre>
+
+<h2>
+<a id="reverse-geocoding" class="anchor" href="#reverse-geocoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reverse geocoding</h2>
+
+<p>Function <code>cartociudad_reverse_geocode</code> returns the address details of a location.</p>
+
+<pre><code>cartociudad_reverse_geocode(40.45332, -3.69442)
+</code></pre>
+
+<h2>
+<a id="mapping" class="anchor" href="#mapping" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mapping</h2>
+
+<p>Function <code>get_cartociudadmap</code> downloads static maps from Cartociudad servers and tries to imitate the behaviour of <code>ggmap::get_googlemap</code>.</p>
+
+<pre><code>soria &lt;- cartociudad_geocode("soria")
+mapa_soria &lt;- get_cartociudadmap(c(soria$latitude, soria$longitude), 1)
+ggmap(mapa_soria)
+</code></pre>
+
+<p>Cartociudad maps can include different kinds of layers. The full list of available layers can be consulted in the API reference manual (see above). </p>
+
+<h2>
+<a id="location-info" class="anchor" href="#location-info" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Location info</h2>
+
+<p>Function <code>get_cartociudad_location_info</code> provindes administrative information on a point indicated by its coordinates. E.g.,</p>
+
+<pre><code>get_cartociudad_location_info(40.473219,-3.7227241, year = 2015)
+</code></pre>
+
+<p>indicates the reverse geocoding details, censal section, censal district, cadastral information and the url to the spanish cadastre website associated to the point.</p>
+
+<h2>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TODO</h2>
+
+<p>Add extra API functionalities to the package.</p>
+
+<h2>
+<a id="help-wanted" class="anchor" href="#help-wanted" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Help wanted!</h2>
+
+<p>If you want to help extend the package, do write to the maintainer and submit your code. It will be reviewed you will be added to the list of authors.</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
