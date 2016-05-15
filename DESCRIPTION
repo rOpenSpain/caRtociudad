@@ -1,15 +1,15 @@
 Package: caRtociudad
 Type: Package
 Title: Interface to Cartociudad API
-Version: 0.3.0
-Date: 2016-04-25
+Version: 0.4.0
+Date: 2016-05-15
 Encoding: UTF-8
 Authors@R: c(person("Carlos J.", "Gil Bellosta", email="cgb@datanalytics.com", role=c('cre', 'aut')),
               person("Luz", "Frías", email = "luzfrias@gmail.com", role = "aut")) 
 Author: Carlos J. Gil Bellosta, Luz Frías
 Maintainer: Carlos J. Gil Bellosta <cgb@datanalytics.com>
 Description: Access to Cartociudad cartography API, which provides mapping and other related services for Spain.
-Depends: httr, jsonlite, xml2, plyr
+Depends: httr, jsonlite, xml2, plyr, geosphere
 Suggests: testthat
 URL: https://github.com/cjgb/caRtociudad
 License: GPL-3
