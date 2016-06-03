@@ -26,8 +26,9 @@ get_cartociudad_census_info <- function(bbox, year) {
   )
   
   url <- "http://servicios.internet.ine.es/WMS/WMS_INE_SECCIONES_G01/MapServer/WMSServer"
+  ua <- get_cartociudad_user_agent()
   
-  res <- GET(url, query = query.parms)
+  res <- GET(url, query = query.parms, ua)
   stop_for_status(res)
   info <- content(res, "parsed", encoding = "UTF-8")
   
@@ -68,8 +69,9 @@ get_cartociudad_cadastral_info <- function(bbox) {
   )
   
   url <- "http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx"
+  ua <- get_cartociudad_user_agent()
   
-  res <- GET(url, query = query.parms)
+  res <- GET(url, query = query.parms, ua)
   stop_for_status(res)
   info <- content(res, "parsed")
   

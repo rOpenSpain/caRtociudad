@@ -1,4 +1,4 @@
-importFrom("httr", GET, content, stop_for_status, warn_for_status)
+importFrom("httr", GET, content, stop_for_status, warn_for_status, user_agent)
 importFrom("jsonlite", fromJSON)
 importFrom("xml2", xml_length, xml_find_one, xml_attr, xml_text)
 importFrom("plyr", ldply)

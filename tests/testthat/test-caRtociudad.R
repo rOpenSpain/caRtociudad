@@ -50,3 +50,13 @@ test_that("cartociudad_reverse_geocode returns an address for a valid location",
   expect_that(!is.null(result$provincia),  is_true())
   expect_that(!is.null(result$cod.postal), is_true())
 })
+
+test_that("get_cartociudad_user_agent returns the package name and github repo url", {
+  ua <- get_cartociudad_user_agent()
+  result <- GET("http://httpbin.org/user-agent", ua)
+  stop_for_status(result)
+  
+  user.agent <- content(result)$"user-agent"
+  expect_that(length(grep("caRtociudad/[0-9.]+",         user.agent)) == 1, is_true())
+  expect_that(length(grep("github.com/cjgb/caRtociudad", user.agent)) == 1, is_true())
+})

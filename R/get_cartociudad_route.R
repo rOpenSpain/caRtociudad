@@ -15,9 +15,9 @@ get_cartociudad_route <- function(latlon.orig, latlon.dest, vehicle = "car"){
   )
   
   url <- "http://www.cartociudad.es/services/api/route"
+  ua <- get_cartociudad_user_agent()
   
-  
-  res <- GET(url, query = query.parms)
+  res <- GET(url, query = query.parms, ua)
   stop_for_status(res)
   
   res <- content(res, as = "parsed", type = "application/json")

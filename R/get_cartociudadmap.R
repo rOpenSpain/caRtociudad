@@ -38,8 +38,9 @@ get_cartociudadmap <- function(center, radius,
   )
   
   url <- "http://www.cartociudad.es/wms/CARTOCIUDAD/CARTOCIUDAD"
+  ua <- get_cartociudad_user_agent()
   
-  res <- GET(url, query = query.parms)
+  res <- GET(url, query = query.parms, ua)
   stop_for_status(res)
   
   my.map <- content(res, as = "parsed", type = "image/png")
@@ -63,7 +64,7 @@ get_cartociudadmap <- function(center, radius,
       bbox             = paste(bbox1, bbox2, bbox3, bbox4, sep = ",")
     )
     
-    res <- GET(url, query = query.parms)
+    res <- GET(url, query = query.parms, ua)
     warn_for_status(res)   # data may not be available at a given map resolution
     
     my.map <- tryCatch(
