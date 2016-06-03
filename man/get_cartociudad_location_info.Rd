@@ -4,7 +4,7 @@
 \title{Administrative information for a location}
 \description{
 Returns the administrative information related to a geographical point in Spain: province, municipality, censal district, censal section, cadastral reference and reverse geocoding data}
-\usage{get_cartociudad_location_info(latitude, longitude, year = 2011,
+\usage{get_cartociudad_location_info(latitude, longitude, year = 2015,
   info.source = c("census", "cadastre", "reverse"))}
 
 \arguments{
@@ -14,9 +14,7 @@ Returns the administrative information related to a geographical point in Spain:
   \item{info.source}{A character vector specifying the APIs to consult. Possible values are "census", "cadastre" and "reverse"}
 }
 
-\details{This function consults administrative information for a point within Spain. Censal information is consulted from a different set of layers, each one corresponding to a different year. Whereas provincial and municipal information is mostly stable, censal districts and sections may be subject to greater changes over the years.
-
-The default value for \code{year}, 2011, corresponds to the last census.}
+\details{This function consults administrative information for a point within Spain. Censal information is consulted from a different set of layers, each one corresponding to a different year. Whereas provincial and municipal information is mostly stable, censal districts and sections may be subject to greater changes over the years.}
 
 \value{A list contaning the administrative information for the given point. For \code{info.source = "census"} it contains the province, municipality, censal discrict and censal section codes. For \code{info.source = "cadastre"} it contains the cadastral reference and the url to the spanish cadastre website. For \code{info.source = "reverse"} it contains the details of the address closest to the specified location, such us road type, number, zip code, street name, ... More information about reverse geocoding in \code{\link{cartociudad_reverse_geocode}}. }
 
@@ -26,5 +24,5 @@ Cadastre web service documentation can be consulted at \url{http://goo.gl/lKkwK}
 \author{Luz Frías with small edits by Carlos J. Gil Bellosta}
 
 \examples{
-get_cartociudad_location_info(40.473219, -3.7227241, year = 2015)
+get_cartociudad_location_info(40.473219, -3.7227241)
 }

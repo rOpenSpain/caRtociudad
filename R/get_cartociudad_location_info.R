@@ -85,7 +85,7 @@ get_cartociudad_cadastral_info <- function(bbox) {
        url.ref.catastral = xml_attr(node, "href"))
 }
 
-get_cartociudad_location_info <- function(latitude, longitude, year = 2011,
+get_cartociudad_location_info <- function(latitude, longitude, year = 2015,
                                           info.source = c("census", "cadastre", "reverse")){
   
   bbox1 <- latitude
