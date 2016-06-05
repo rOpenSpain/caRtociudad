@@ -49,7 +49,7 @@ Function `get_cartociudad_area` calculates the area given a point and a radius i
 ```
 vallecas.lat <- 40.3930144
 vallecas.lon <- -3.6596683
-map <- get_cartociudadmap(c(vallecas.lat, vallecas.lon), .750)
+map <- get_cartociudadmap(c(vallecas.lat, vallecas.lon), 1)
 polygon <- get_cartociudad_area(vallecas.lat, vallecas.lon, 500)
 ggmap(map) + geom_polygon(data = polygon, aes(x = longitude, y = latitude), colour = "red", fill = NA)
 ```
