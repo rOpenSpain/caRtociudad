@@ -42,12 +42,26 @@ ggmap(mapa_soria)
 
 Cartociudad maps can include different kinds of layers. The full list of available layers can be consulted in the API reference manual (see above). 
 
-## Location info
+## Area
 
-Function `get_cartociudad_location_info` provindes administrative information on a point indicated by its coordinates. E.g.,
+Function `get_cartociudad_area` calculates the area given a point and a radius in meters. E.g.,
 
 ```
-get_cartociudad_location_info(40.473219,-3.7227241, year = 2015)
+vallecas.lat <- 40.3930144
+vallecas.lon <- -3.6596683
+map <- get_cartociudadmap(c(vallecas.lat, vallecas.lon), .750)
+polygon <- get_cartociudad_area(vallecas.lat, vallecas.lon, 500)
+ggmap(map) + geom_polygon(data = polygon, aes(x = longitude, y = latitude), colour = "red", fill = NA)
+```
+
+draws a polygon around the given center in a map.
+
+## Location info
+
+Function `get_cartociudad_location_info` provides administrative information on a point indicated by its coordinates. E.g.,
+
+```
+get_cartociudad_location_info(40.473219,-3.7227241)
 ```
 indicates the reverse geocoding details, censal section, censal district, cadastral information and the url to the spanish cadastre website associated to the point.
 

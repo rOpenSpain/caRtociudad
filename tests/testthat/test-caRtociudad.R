@@ -60,3 +60,9 @@ test_that("get_cartociudad_user_agent returns the package name and github repo u
   expect_that(length(grep("caRtociudad/[0-9.]+",         user.agent)) == 1, is_true())
   expect_that(length(grep("github.com/cjgb/caRtociudad", user.agent)) == 1, is_true())
 })
+
+test_that("get_cartociudad_area with valid parameters returns a polygon", {
+  result <- get_cartociudad_area(40.3930144, -3.6596683, 500)
+  
+  expect_that(nrow(result) > 2, is_true())
+})
