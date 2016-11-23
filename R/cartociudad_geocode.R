@@ -12,7 +12,7 @@ cartociudad_geocode <- function(full_address,
                                 zip,
                                 max_results = 3)
 {
-    api.args <- as.list(match.call())[-1]
+    api.args <- lapply(as.list(match.call())[-1], eval)
     
     if(!is.null(max_results))
       api.args$max_results <- max_results
