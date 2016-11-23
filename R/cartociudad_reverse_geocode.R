@@ -11,8 +11,9 @@ cartociudad_reverse_geocode <- function(latitude, longitude) {
   )
   
   url <- "http://www.cartociudad.es/services/api/geocoder/reverseGeocode"
+  ua <- get_cartociudad_user_agent()
   
-  res <- GET(url, query = query.parms)
+  res <- GET(url, query = query.parms, ua)
   stop_for_status(res)
   info <- content(res)
   

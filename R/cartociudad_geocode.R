@@ -16,13 +16,15 @@ cartociudad_geocode <- function(full_address,
     
     if(!is.null(max_results))
       api.args$max_results <- max_results
-  
+    
+    ua <- get_cartociudad_user_agent()
+    
     res <- if (!missing(full_address)){
                 api.args$address <- full_address
-                GET("http://www.cartociudad.es/CartoGeocoder/Geocode", query = api.args)
+                GET("http://www.cartociudad.es/CartoGeocoder/Geocode", query = api.args, ua)
            }
            else
-                GET("http://www.cartociudad.es/CartoGeocoder/GeocodeAddress", query = api.args)
+                GET("http://www.cartociudad.es/CartoGeocoder/GeocodeAddress", query = api.args, ua)
     
     stop_for_status(res)
     
