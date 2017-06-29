@@ -9,9 +9,10 @@ Authors@R: c(person("Carlos J.", "Gil Bellosta", email="cgb@datanalytics.com", r
 Author: Carlos J. Gil Bellosta, Luz Frías
 Maintainer: Carlos J. Gil Bellosta <cgb@datanalytics.com>
 Description: Access to Cartociudad cartography API, which provides mapping and other related services for Spain.
-Depends: httr, jsonlite, xml2, plyr, geosphere, png
+Imports: httr, jsonlite, xml2, plyr, geosphere, png
 Suggests: testthat
 URL: https://github.com/cjgb/caRtociudad
 License: GPL-3
 LazyLoad: yes
 LazyData: yes
+RoxygenNote: 6.0.1
