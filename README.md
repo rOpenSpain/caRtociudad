@@ -48,6 +48,7 @@ Cartociudad maps can include different kinds of layers. The full list of availab
 Function `get_cartociudad_area` calculates the area given a point and a radius in meters. E.g.,
 
 ```
+library(ggmap)
 vallecas.lat <- 40.3930144
 vallecas.lon <- -3.6596683
 map <- get_cartociudadmap(c(vallecas.lat, vallecas.lon), 1)
