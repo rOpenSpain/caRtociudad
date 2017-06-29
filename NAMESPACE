@@ -1,8 +1,11 @@
 importFrom("httr", GET, content, stop_for_status, warn_for_status, user_agent)
 importFrom("jsonlite", fromJSON)
-importFrom("xml2", xml_length, xml_find_one, xml_attr, xml_text)
+importFrom("xml2", xml_length, xml_find_first, xml_attr, xml_text)
 importFrom("plyr", ldply)
 importFrom("geosphere", distHaversine)
+importFrom("grDevices", "rgb")
+importFrom("utils", "packageVersion")
+importFrom("png", "readPNG")
 
 export(cartociudad_geocode)
 export(get_cartociudadmap)

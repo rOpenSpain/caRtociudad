@@ -36,8 +36,8 @@ get_cartociudad_census_info <- function(bbox, year) {
   if (xml_length(info) == 0) {
     return(list())
   }
-  node.sec <- xml_find_one(info, '//*[@CUSEC]')
-  node.dis <- xml_find_one(info, '//*[@CUDIS]')
+  node.sec <- xml_find_first(info, '//*[@CUSEC]')
+  node.dis <- xml_find_first(info, '//*[@CUDIS]')
   
   list(seccion   = xml_attr(node.sec, "CUSEC"),
        distrito  = xml_attr(node.dis, "CUDIS"),
@@ -79,7 +79,7 @@ get_cartociudad_cadastral_info <- function(bbox) {
   if (is.null(info) || xml_length(info) == 0) {
     return(list())
   }
-  node <- xml_find_one(info, "//a[@href]")
+  node <- xml_find_first(info, "//a[@href]")
   
   list(ref.catastral     = xml_text(node),
        url.ref.catastral = xml_attr(node, "href"))
