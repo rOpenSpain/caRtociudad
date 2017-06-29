@@ -35,6 +35,7 @@ cartociudad_reverse_geocode(40.45332, -3.69442)
 Function `get_cartociudadmap` downloads static maps from Cartociudad servers and tries to imitate the behaviour of `ggmap::get_googlemap`.
 
 ```
+library(ggmap)
 soria <- cartociudad_geocode("soria")
 mapa_soria <- get_cartociudadmap(c(soria$latitude, soria$longitude), 1)
 ggmap(mapa_soria)
