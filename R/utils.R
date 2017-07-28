@@ -4,7 +4,13 @@
 ##########################################################################
 
 get_cartociudad_user_agent <- function() {
-  ua <- paste0("caRtociudad/", packageVersion("caRtociudad"),
+  ua <- paste0("caRtociudad/", utils::packageVersion("caRtociudad"),
                " (https://github.com/cjgb/caRtociudad)")
-  user_agent(ua)
+  return(httr::user_agent(ua))
+}
+
+jsonp_to_json <- function(text) {
+  text <- gsub("^\\w+\\(", "", text)
+  text <- gsub("\\)$", "", text)
+  return(text)
 }
