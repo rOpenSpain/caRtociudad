@@ -4,7 +4,7 @@
 \alias{cartociudad_geocode}
 \title{Interface to Cartociudad geolocation API}
 \usage{
-cartociudad_geocode(full_address)
+cartociudad_geocode(full_address, output_format = "JSON")
 }
 \arguments{
 \item{full_address}{Character string providing the full address to be

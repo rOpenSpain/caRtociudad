@@ -10,7 +10,7 @@
 #'   advisable to add the street type (calle, etc.) and to omit the country
 #'   name.
 #'
-#' @usage cartociudad_geocode(full_address)
+#' @usage cartociudad_geocode(full_address, output_format = "JSON")
 #'
 #' @param full_address Character string providing the full address to be
 #'   geolocated; e.g., "calle miguel servet 5, zaragoza". Adding the country may

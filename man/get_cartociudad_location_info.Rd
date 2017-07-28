@@ -4,7 +4,7 @@
 \alias{get_cartociudad_location_info}
 \title{Administrative information for a location}
 \usage{
-get_cartociudad_location_info(latitude, longitude, year = 2015,
+get_cartociudad_location_info(latitude, longitude, year = 2016,
   info.source = c("census", "cadastre", "reverse"))
 }
 \arguments{

@@ -6,15 +6,15 @@
 #' @title Get a Cartociudad Map
 #'
 #' @description Downloads static maps using Cartociudad API. These maps can be
-#'   then used by functions such as \code{ggmap}
+#'   then plotted by functions such as \code{ggmap}.
 #'
 #' @details This function, similar to \code{get_googlemap} or
 #'   \code{get_openstreetmap} downloads a map from Cartociudad API and creates a
 #'   \code{ggmap} compatible version of it.
 #'
-#' @usage get_cartociudadmap(center, radius, layers = c("FondoUrbano", "Vial",
-#'   "Portal", "Toponimo"), add.censal.section = FALSE, height = 600, width =
-#'   600)
+#' @usage get_cartociudadmap(center, radius, add.censal.section = FALSE,
+#'    layers = c("FondoUrbano", "Vial", "Portal", "Toponimo"),
+#'    height = 600, width = 600)
 #'
 #' @param center a pair of numbers (latitude and longitude of the center of the
 #'   map)
@@ -39,23 +39,15 @@
 #' @examples
 #' \dontrun{
 #'   soria <- cartociudad_geocode("ayuntamiento soria")
-#'
-#'   # Plot it
-#'   get_cartociudadmap(c(soria$lat, soria$lng), 1, plot = TRUE)
-#'
-#'   # Store it
-#'   soria.map <- get_cartociudadmap(c(soria$lat, soria$lng), 1)
+#'   soria_map <- get_cartociudadmap(c(soria$lat, soria$lng), 1)
+#'   ggmap(soria_map)
 #' }
 #'
 #' @export
 #'
-get_cartociudadmap <- function(center, radius, plot = FALSE,
+get_cartociudadmap <- function(center, radius, add.censal.section = FALSE,
                         layers = c("FondoUrbano", "Vial", "Portal", "Toponimo"),
-                        add.censal.section = FALSE,
                         height = 600, width = 600) {
-
-  if (!"ggmap" %in% installed.packages()[, 1])
-    stop("We need the ggmap package to plot this function. Please, install it.")
 
   # calculate bobx via an approximation
   delta <- 0.01
@@ -133,9 +125,5 @@ get_cartociudadmap <- function(center, radius, plot = FALSE,
   class(my.map) <- c("ggmap", "raster")
   attr(my.map, "bb") <- data.frame(ll.lat = bbox1, ll.lon = bbox2,
                                    ur.lat = bbox3, ur.lon = bbox4)
-  if (plot) {
-    return(ggmap::ggmap(my.map))
-  } else {
-    return(my.map)
-  }
+  my.map
 }

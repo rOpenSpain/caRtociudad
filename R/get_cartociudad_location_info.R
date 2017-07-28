@@ -112,7 +112,7 @@ get_cartociudad_cadastral_info <- function(bbox) {
 #'   information is mostly stable, censal districts and sections may be subject
 #'   to greater changes over the years.
 #'
-#' @usage get_cartociudad_location_info(latitude, longitude, year = 2015,
+#' @usage get_cartociudad_location_info(latitude, longitude, year = 2016,
 #'   info.source = c("census", "cadastre", "reverse"))
 #'
 #' @param latitude Point latitude in geographical coordinates (e.g., 40.473219)

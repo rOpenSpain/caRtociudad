@@ -4,9 +4,9 @@
 \alias{get_cartociudadmap}
 \title{Get a Cartociudad Map}
 \usage{
-get_cartociudadmap(center, radius, layers = c("FondoUrbano", "Vial",
-  "Portal", "Toponimo"), add.censal.section = FALSE, height = 600, width =
-  600)
+get_cartociudadmap(center, radius, add.censal.section = FALSE,
+   layers = c("FondoUrbano", "Vial", "Portal", "Toponimo"),
+   height = 600, width = 600)
 }
 \arguments{
 \item{center}{a pair of numbers (latitude and longitude of the center of the
@@ -14,13 +14,13 @@ map)}
 
 \item{radius}{approximate map "width" in kilometers}
 
-\item{layers}{layers the map should include; Cartociudad API documentation
-lists a number of them, some of which are only available in a limited
-number of provinces}
-
 \item{add.censal.section}{whether to add the limit of censal sections and
 districts to the base map; note that this layer may not be available at low
 zoom levels}
+
+\item{layers}{layers the map should include; Cartociudad API documentation
+lists a number of them, some of which are only available in a limited
+number of provinces}
 
 \item{height}{map height in pixels}
 
@@ -32,7 +32,7 @@ An object of class \code{ggmap} and \code{raster} which can be used
 }
 \description{
 Downloads static maps using Cartociudad API. These maps can be
-  then used by functions such as \code{ggmap}
+  then plotted by functions such as \code{ggmap}.
 }
 \details{
 This function, similar to \code{get_googlemap} or
@@ -42,12 +42,8 @@ This function, similar to \code{get_googlemap} or
 \examples{
 \dontrun{
   soria <- cartociudad_geocode("ayuntamiento soria")
-
-  # Plot it
-  get_cartociudadmap(c(soria$lat, soria$lng), 1, plot = TRUE)
-
-  # Store it
-  soria.map <- get_cartociudadmap(c(soria$lat, soria$lng), 1)
+  soria_map <- get_cartociudadmap(c(soria$lat, soria$lng), 1)
+  ggmap(soria_map)
 }
 
 }
