@@ -13,15 +13,8 @@ cartociudad_reverse_geocode(latitude, longitude)
 -3.7227241)}
 }
 \value{
-A list with the following items:
-\item{tipo}{type of location.}
-\item{tipo.via}{road type.}
-\item{nombre.via}{road name.}
-\item{num.via}{road number.}
-\item{num.via.id}{internal id of this address in cartociudad database.}
-\item{municipio}{town.}
-\item{provincia}{province.}
-\item{cod.postal}{zip code.}
+A data frame consisting of a single row per query. See the reference
+  below for an explanation of the data frame columns.
 }
 \description{
 Returns the address details of a geographical point in Spain.
@@ -31,7 +24,11 @@ This function performs reverse geocoding of a location. It returns
   the details of the closest address in Spain.
 }
 \examples{
+# Query one point
 cartociudad_reverse_geocode(40.473219, -3.7227241)
+
+# Query multiple points
+cartociudad_reverse_geocode(c(40.473219, 39.46979), c(-3.7227241, -0.376963))
 
 }
 \references{

@@ -15,7 +15,7 @@ cause problems.}
 "GeoJSON".}
 }
 \value{
-A data frame consisting of a single row per guess. See the reference
+A data frame consisting of a single row per query. See the reference
   below for an explanation of the data frame columns.
 }
 \description{
@@ -25,8 +25,14 @@ Geolocation of Spanish addresses via Cartociudad API calls, providing the
   name.
 }
 \examples{
-# using full address
-my.address <- cartociudad_geocode(full_address = "plaza de cascorro 11, 28005 madrid")
+# Query a single address
+address <- "plaza de cascorro 11, 28005 madrid"
+my.address <- cartociudad_geocode(full_address = address)
+print(my.address)
+
+# Query multiple addresses
+address <- c(address, "plaza del ayunamiento 1, valencia")
+my.address <- cartociudad_geocode(full_address = address)
 print(my.address)
 
 }
