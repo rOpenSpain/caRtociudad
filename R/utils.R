@@ -14,11 +14,3 @@ jsonp_to_json <- function(text) {
   text <- gsub("\\)$", "", text)
   return(text)
 }
-
-rbind_lists_df <- function(x, y) {
-  x_diff <- setdiff(colnames(x), colnames(y))
-  y_diff <- setdiff(colnames(y), colnames(x))
-  x[, c(as.character(y_diff))] <- NA
-  y[, c(as.character(x_diff))] <- NA
-  return(rbind(x, y))
-}

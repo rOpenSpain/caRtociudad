@@ -39,14 +39,7 @@ cartociudad_reverse_geocode <- function(latitude, longitude) {
 
   names_res <- c("type", "tip_via", "address", "portalNumber", "id",
                  "muni", "province", "postalCode", "lat", "lng")
-  results   <- as.data.frame(
-    matrix(
-      ncol = length(names_res),
-      nrow = length(latitude)
-    )
-  )
-  colnames(results) <- names_res
-  res_list          <- list()
+  res_list  <- list()
 
   url <- "http://www.cartociudad.es/services/api/geocoder/reverseGeocode"
   ua <- get_cartociudad_user_agent()
@@ -57,18 +50,15 @@ cartociudad_reverse_geocode <- function(latitude, longitude) {
 
     if (httr::http_error(res)) {
       warning("Error in query ", i, ": ", httr::http_status(res)$message)
-      results[i, c("lat", "lng")] <- c(latitude[i], longitude[i])
+      res_list[[i]] <- data.frame(lat = latitude[i], lng = longitude[i],
+                                  stringsAsFactors = FALSE)
     } else {
       info          <- httr::content(res)
-      res_list[[i]] <- as.data.frame(t(unlist(info)), stringsAsFactors = FALSE)[, names_res]
+      res_list[[i]] <- as.data.frame(t(unlist(info)),
+                                     stringsAsFactors = FALSE)[, names_res]
     }
   }
 
-  if (length(res_list) == 1) {
-    results <- res_list[[1]]
-  } else {
-    results <- do.call(rbind_lists_df, res_list)
-  }
-
+  results <- purrr::map_df(res_list, rbind)
   return(results)
 }

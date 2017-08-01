@@ -40,17 +40,7 @@
 #' @export
 #'
 cartociudad_geocode <- function(full_address, output_format = "JSON") {
-  names_res <- c("id", "province", "muni", "type", "address", "postalCode",
-                 "poblacion", "geom", "tip_via", "lat", "lng",
-                 "portalNumber", "stateMsg", "state", "countryCode")
-  results   <- as.data.frame(
-    matrix(
-      ncol = length(names_res),
-      nrow = length(full_address)
-    )
-  )
-  colnames(results) <- names_res
-  res_list          <- list()
+  res_list <- list()
 
   for (i in seq_along(full_address)) {
     api.args <- list(q = full_address[i], outputformat = output_format)
@@ -60,8 +50,8 @@ cartociudad_geocode <- function(full_address, output_format = "JSON") {
 
     if (httr::http_error(res)) {
       warning("Error in query ", i, ": ", httr::http_status(res)$message)
-      results[i, "address"] <- full_address[i]
-      results[i, "state"]   <- 0
+      res_list[[i]] <- data.frame(address = full_address[i],
+                                  stringsAsFactors = FALSE)
     } else {
       res <- jsonp_to_json(httr::content(res, as = "text", encoding = "UTF8"))
       res <- jsonlite::fromJSON(res)
@@ -69,12 +59,8 @@ cartociudad_geocode <- function(full_address, output_format = "JSON") {
     }
   }
 
-  if (length(res_list) == 1) {
-    results <- res_list[[1]]
-  } else {
-    results <- do.call(rbind_lists_df, res_list)
-  }
-
+  results <- purrr::map_df(res_list, rbind)
   results[, c("lat", "lng")] <- apply(results[, c("lat", "lng")], 2, as.numeric)
+
   return(results)
 }
