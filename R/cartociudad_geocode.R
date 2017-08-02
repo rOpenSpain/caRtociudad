@@ -40,25 +40,39 @@
 #' @export
 #'
 cartociudad_geocode <- function(full_address, output_format = "JSON") {
-  res_list <- list()
+
+  stopifnot(class(full_address) == "character")
+  stopifnot(length(full_address) >= 1)
+  no_geocode <- which(nchar(full_address) == 0)
+  res_list   <- list()
 
   for (i in seq_along(full_address)) {
-    api.args <- list(q = full_address[i], outputformat = output_format)
-    ua  <- get_cartociudad_user_agent()
-    res <- httr::GET("http://www.cartociudad.es/geocoder/api/geocoder/findJsonp",
-                     query = api.args, ua)
-
-    if (httr::http_error(res)) {
-      warning("Error in query ", i, ": ", httr::http_status(res)$message)
-      res_list[[i]] <- data.frame(address = full_address[i],
-                                  stringsAsFactors = FALSE)
+    if (!i %in% no_geocode) {
+      api.args <- list(q = full_address[i], outputformat = output_format)
+      ua  <- get_cartociudad_user_agent()
+      res <- httr::GET("http://www.cartociudad.es/geocoder/api/geocoder/findJsonp",
+                       query = api.args, ua)
+      if (httr::http_error(res)) {
+        warning("Error in query ", i, ": ", httr::http_status(res)$message)
+        res_list[[i]] <- data.frame(address = full_address[i],
+                                    stringsAsFactors = FALSE)
+      } else {
+        res <- jsonp_to_json(httr::content(res, as = "text", encoding = "UTF8"))
+        res <- jsonlite::fromJSON(res)
+        res <- res[-which(names(res) %in% c("geom", "countryCode", "refCatastral"))]
+        if (length(res) == 0) {
+          warning("The query has 0 results.")
+          res_list[[i]] <- data.frame(address = full_address[i],
+                                      stringsAsFactors = FALSE)
+        } else {
+          res_list[[i]] <- as.data.frame(t(unlist(res)), stringsAsFactors = FALSE)
+        }
+      }
     } else {
-      res <- jsonp_to_json(httr::content(res, as = "text", encoding = "UTF8"))
-      res <- jsonlite::fromJSON(res)
-      res_list[[i]] <- as.data.frame(t(unlist(res)), stringsAsFactors = FALSE)
+      warning("Empty string as query: NA returned.")
+      res_list[[i]] <- data.frame(address = NA, stringsAsFactors = FALSE)
     }
   }
-
   results <- purrr::map_df(res_list, rbind)
   results[, c("lat", "lng")] <- apply(results[, c("lat", "lng")], 2, as.numeric)
 
