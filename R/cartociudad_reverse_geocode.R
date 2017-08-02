@@ -35,7 +35,7 @@
 #'
 cartociudad_reverse_geocode <- function(latitude, longitude) {
 
-  stopifnot(length(latitude) == length(longitude))
+  stopifnot(length(latitude) == length(longitude) | length(latitude) == 0)
 
   names_res <- c("type", "tip_via", "address", "portalNumber", "id",
                  "muni", "province", "postalCode", "lat", "lng")
