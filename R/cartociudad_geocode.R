@@ -73,7 +73,7 @@ cartociudad_geocode <- function(full_address, output_format = "JSON") {
       res_list[[i]] <- data.frame(address = NA, stringsAsFactors = FALSE)
     }
   }
-  results <- purrr::map_df(res_list, rbind)
+  results <- plyr::rbind.fill(res_list)
   results[, c("lat", "lng")] <- apply(results[, c("lat", "lng")], 2, as.numeric)
 
   return(results)

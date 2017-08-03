@@ -37,12 +37,10 @@ cartociudad_reverse_geocode <- function(latitude, longitude) {
 
   stopifnot(length(latitude) == length(longitude) | length(latitude) == 0)
 
-  names_res <- c("type", "tip_via", "address", "portalNumber", "id",
-                 "muni", "province", "postalCode", "lat", "lng")
   res_list  <- list()
-
-  url <- "http://www.cartociudad.es/services/api/geocoder/reverseGeocode"
-  ua <- get_cartociudad_user_agent()
+  url       <- "http://www.cartociudad.es/services/api/geocoder/reverseGeocode"
+  ua        <- get_cartociudad_user_agent()
+  no_select <- c("geom", "poblacion", "stateMsg", "state", "priority", "countryCode")
 
   for (i in seq_along(latitude)) {
     query.parms <- list(lat = latitude[i], lon = longitude[i])
@@ -54,11 +52,17 @@ cartociudad_reverse_geocode <- function(latitude, longitude) {
                                   stringsAsFactors = FALSE)
     } else {
       info          <- httr::content(res)
-      res_list[[i]] <- as.data.frame(t(unlist(info)),
-                                     stringsAsFactors = FALSE)[, names_res]
+      info          <- info[-which(names(info) %in% no_select)]
+      res_list[[i]] <- as.data.frame(t(unlist(info)), stringsAsFactors = FALSE)
     }
   }
 
-  results <- purrr::map_df(res_list, rbind)
+  results <- plyr::rbind.fill(res_list)
+  names_old <- c("type", "tip_via", "address", "portalNumber", "id",
+                 "muni", "province", "postalCode", "lat", "lng")
+  names_new <- c("tipo", "tipo.via", "nombre.via", "num.via", "num.via.id",
+                 "municipio", "provincia", "cod.postal", "lat", "lng")
+  colnames(results)[which(colnames(results) %in% names_old)] <- names_new
+
   return(results)
 }
