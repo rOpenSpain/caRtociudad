@@ -5,10 +5,10 @@
 
 #' @title Interface to Cartociudad geolocation API
 #'
-#' @description Geolocation of Spanish addresses via Cartociudad API calls, providing the
-#'   full address in a single text string via \code{full_address}. It is
-#'   advisable to add the street type (calle, etc.) and to omit the country
-#'   name.
+#' @description Geolocation of Spanish addresses via Cartociudad API calls,
+#'   providing the full address in a single text string via \code{full_address}.
+#'   It is advisable to add the street type (calle, etc.) and to omit the
+#'   country name.
 #'
 #' @usage cartociudad_geocode(full_address, output_format = "JSON")
 #'

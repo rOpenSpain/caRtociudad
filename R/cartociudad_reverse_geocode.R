@@ -16,8 +16,15 @@
 #' @param longitude Point longitude in geographical coordinates (e.g.,
 #'   -3.7227241)
 #'
-#' @return A data frame consisting of a single row per query. See the reference
-#'   below for an explanation of the data frame columns.
+#' @return A data frame consisting of a single row per query, with columns:
+#' \item{tipo}{type of location.}
+#' \item{tipo.via}{road type.}
+#' \item{nombre.via}{road name.}
+#' \item{num.via}{road number.}
+#' \item{num.via.id}{internal id of this address in cartociudad database.}
+#' \item{municipio}{town.}
+#' \item{provincia}{province.}
+#' \item{cod.postal}{zip code.}
 #'
 #' @author Luz Frias
 #'
@@ -50,6 +57,10 @@ cartociudad_reverse_geocode <- function(latitude, longitude) {
       warning("Error in query ", i, ": ", httr::http_status(res)$message)
       res_list[[i]] <- data.frame(lat = latitude[i], lng = longitude[i],
                                   stringsAsFactors = FALSE)
+    } else if (length(httr::content(res)) == 0) {
+      warning("Query ", i, " produced 0 results.")
+      res_list[[i]] <- data.frame(lat = latitude[i], lng = longitude[i],
+                                  stringsAsFactors = FALSE)
     } else {
       info          <- httr::content(res)
       info          <- info[-which(names(info) %in% no_select)]
@@ -62,7 +73,9 @@ cartociudad_reverse_geocode <- function(latitude, longitude) {
                  "muni", "province", "postalCode", "lat", "lng")
   names_new <- c("tipo", "tipo.via", "nombre.via", "num.via", "num.via.id",
                  "municipio", "provincia", "cod.postal", "lat", "lng")
-  colnames(results)[which(colnames(results) %in% names_old)] <- names_new
+  for (i in seq_len(ncol(results))) {
+    colnames(results)[colnames(results) == names_old[i]] <- names_new[i]
+  }
 
   return(results)
 }

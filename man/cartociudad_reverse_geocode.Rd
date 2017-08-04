@@ -13,8 +13,15 @@ cartociudad_reverse_geocode(latitude, longitude)
 -3.7227241)}
 }
 \value{
-A data frame consisting of a single row per query. See the reference
-  below for an explanation of the data frame columns.
+A data frame consisting of a single row per query, with columns:
+\item{tipo}{type of location.}
+\item{tipo.via}{road type.}
+\item{nombre.via}{road name.}
+\item{num.via}{road number.}
+\item{num.via.id}{internal id of this address in cartociudad database.}
+\item{municipio}{town.}
+\item{provincia}{province.}
+\item{cod.postal}{zip code.}
 }
 \description{
 Returns the address details of a geographical point in Spain.

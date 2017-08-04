@@ -19,10 +19,10 @@ A data frame consisting of a single row per query. See the reference
   below for an explanation of the data frame columns.
 }
 \description{
-Geolocation of Spanish addresses via Cartociudad API calls, providing the
-  full address in a single text string via \code{full_address}. It is
-  advisable to add the street type (calle, etc.) and to omit the country
-  name.
+Geolocation of Spanish addresses via Cartociudad API calls,
+  providing the full address in a single text string via \code{full_address}.
+  It is advisable to add the street type (calle, etc.) and to omit the
+  country name.
 }
 \examples{
 # Query a single address
