@@ -27,7 +27,7 @@ cartociudad_reverse_geocode(40.45332, -3.69442)
 
 ## Mapping
 
-Function `get_cartociudadmap` downloads static maps from Cartociudad servers and tries to imitate the behaviour of `ggmap::get_googlemap`. The query below returns a map that can be then plotted using `ggmap` after possibly adding other features (points, segments, paths, etc.). The second parameter in the call to `get_cartociudadmap` indicates that the map will cover an area of an approximate radious of 1 km.
+Function `get_cartociudadmap` downloads static maps from Cartociudad servers and tries to imitate the behaviour of `ggmap::get_googlemap`. The query below returns a map that can be then plotted using `ggmap` after possibly adding other features (points, segments, paths, etc.). The second parameter in the call to `get_cartociudadmap` indicates that the map will cover an area of an approximate radius of 1 km.
 
 ```
 soria <- cartociudad_geocode("ayuntamiento soria")
