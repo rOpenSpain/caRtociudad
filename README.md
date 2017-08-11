@@ -34,7 +34,7 @@ soria <- cartociudad_geocode("ayuntamiento soria")
 get_cartociudadmap(c(soria$lat, soria$lng), 1)
 ```
 
-Cartociudad maps can include different kinds of layers. The full list of available layers can be consulted in the API reference manual (see above). 
+Cartociudad maps can include different kinds of layers, such as postal codes or cadastral references. The full list of available layers can be consulted in the [API reference manual](http://www.cartociudad.es/recursos/Documentacion_tecnica/CARTOCIUDAD_ServiciosWeb.pdf). 
 
 ## Area
 
