@@ -48,8 +48,10 @@ cartociudad_reverse_geocode <- function(latitude, longitude) {
   url       <- "http://www.cartociudad.es/services/api/geocoder/reverseGeocode"
   ua        <- get_cartociudad_user_agent()
   no_select <- c("geom", "poblacion", "stateMsg", "state", "priority", "countryCode")
+  total      <- length(latitude)
+  pb         <- utils::txtProgressBar(min = 0, max = total, style = 3)
 
-  for (i in seq_along(latitude)) {
+  for (i in seq_len(total)) {
     query.parms <- list(lat = latitude[i], lon = longitude[i])
     res         <- httr::GET(url, query = query.parms, ua)
 
@@ -66,8 +68,10 @@ cartociudad_reverse_geocode <- function(latitude, longitude) {
       info          <- info[-which(names(info) %in% no_select)]
       res_list[[i]] <- as.data.frame(t(unlist(info)), stringsAsFactors = FALSE)
     }
+    utils::setTxtProgressBar(pb, i)
   }
 
+  cat("\n")
   results <- plyr::rbind.fill(res_list)
   names_old <- c("type", "tip_via", "address", "portalNumber", "id",
                  "muni", "province", "postalCode", "lat", "lng")

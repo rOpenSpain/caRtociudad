@@ -4,7 +4,8 @@
 \alias{cartociudad_geocode}
 \title{Interface to Cartociudad geolocation API}
 \usage{
-cartociudad_geocode(full_address, output_format = "JSON")
+cartociudad_geocode(full_address, output_format = "JSON", version =
+  c("current", "prev"))
 }
 \arguments{
 \item{full_address}{Character string providing the full address to be
@@ -12,7 +13,10 @@ geolocated; e.g., "calle miguel servet 5, zaragoza". Adding the country may
 cause problems.}
 
 \item{output_format}{Character string. Output format of the query: "JSON" or
-"GeoJSON".}
+"GeoJSON". Only applicable if you choose version = "previous".}
+
+\item{version}{Character string. Geocoder version to use: "current" or
+"prev".}
 }
 \value{
 A data frame consisting of a single row per query. See the reference
