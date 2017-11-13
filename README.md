@@ -27,14 +27,14 @@ cartociudad_reverse_geocode(40.45332, -3.69442)
 
 ## Mapping
 
-Function `get_cartociudadmap` downloads static maps from Cartociudad servers and tries to imitate the behaviour of `ggmap::get_googlemap`.
+Function `get_cartociudadmap` downloads static maps from Cartociudad servers and tries to imitate the behaviour of `ggmap::get_googlemap`. The query below returns a map that can be then plotted using `ggmap` after possibly adding other features (points, segments, paths, etc.). The second parameter in the call to `get_cartociudadmap` indicates that the map will cover an area of an approximate radius of 1 km.
 
 ```
 soria <- cartociudad_geocode("ayuntamiento soria")
-get_cartociudadmap(c(soria$lat, soria$lng), 1, plot = TRUE)
+get_cartociudadmap(c(soria$lat, soria$lng), 1)
 ```
 
-Cartociudad maps can include different kinds of layers. The full list of available layers can be consulted in the API reference manual (see above). 
+Cartociudad maps can include different kinds of layers, such as postal codes or cadastral references. The full list of available layers can be consulted in the [API reference manual](http://www.cartociudad.es/recursos/Documentacion_tecnica/CARTOCIUDAD_ServiciosWeb.pdf). 
 
 ## Area
 

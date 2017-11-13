@@ -33,6 +33,11 @@ Geolocation of Spanish addresses via Cartociudad API calls,
   It is advisable to add the street type (calle, etc.) and to omit the
   country name.
 }
+\details{
+The entity geolocation API admits more parameters beyond the address field such as \code{id} or \code{type}. 
+  You can use these extra arguments (see the References or the Examples sections below for further information) 
+  at your own risk.
+}
 \examples{
 # Query a single address
 address <- "plaza de cascorro 11, 28005 madrid"
@@ -44,6 +49,7 @@ address <- c(address, "plaza del ayunamiento 1, valencia")
 my.address <- cartociudad_geocode(full_address = address)
 print(my.address)
 
+}
 }
 \references{
 \url{http://www.cartociudad.es/recursos/Documentacion_tecnica/CARTOCIUDAD_ServiciosWeb.pdf}
