@@ -43,6 +43,13 @@ test_that("Geocoding and reverse geocoding wrong addresses", {
   expect_warning(cartociudad_reverse_geocode(res_geo$lat[5], res_geo$lng[5]))
 })
 
+test_that("Server error handling", {
+  address     <- c("calle hondon de las nieves 5, alicante")
+  expect_warning(cartociudad_geocode(address, on_error = "warn"))
+  expect_error(cartociudad_geocode(address, on_error = "fail"))
+})
+
+
 test_that("get_cartociudadmap returns a map for a valid location", {
   map <- get_cartociudadmap(c(40.41137, -3.707168), 1)
 

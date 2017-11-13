@@ -11,15 +11,19 @@
 #'   country name.
 #'
 #' @usage cartociudad_geocode(full_address, version = c("current", "prev"),
-#' output_format = "JSON")
+#'   output_format = "JSON", on_error = c("warn", "fail"))
 #'
 #' @param full_address Character string providing the full address to be
 #'   geolocated; e.g., "calle miguel servet 5, zaragoza". Adding the country may
 #'   cause problems.
-#' @param output_format Character string. Output format of the query: "JSON" or
-#'   "GeoJSON". Only applicable if you choose version = "previous".
-#' @param version Character string. Geocoder version to use: "current" or
-#'   "prev".
+#' @param version Character string. Geocoder version to use: \code{current} or
+#'   \code{prev}.
+#' @param output_format Character string. Output format of the query:
+#'   \code{JSON} or \code{GeoJSON}. Only applicable if you choose version =
+#'   "previous".
+#' @param on_error Character string. Defaults to \code{warn}: in case of errors,
+#'   the function will return an empty \code{data.frame} and a warning. Set it
+#'   to \code{fail} to stop the function call in case of errors in the API call.
 #'
 #' @return A data frame consisting of a single row per query. See the reference
 #'   below for an explanation of the data frame columns.
@@ -43,11 +47,12 @@
 #' @export
 #'
 cartociudad_geocode <- function(full_address, version = c("current", "prev"),
-                                output_format = "JSON") {
+                                output_format = "JSON", on_error = c("warn", "fail")) {
 
   stopifnot(class(full_address) == "character")
   stopifnot(length(full_address) >= 1)
   version    <- match.arg(version)
+  on_error   <- match.arg(on_error)
   no_geocode <- which(nchar(full_address) == 0)
   total      <- length(full_address)
   res_list   <- list(total)
@@ -76,6 +81,8 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
       }
       res <- httr::GET(get_url, query = api.args, ua)
       if (httr::http_error(res)) {
+        if (on_error == "fail")
+          stop("Call to cartociudad API failed with error code ", res$status_code)
         warning("Error in query ", i, ": ", httr::http_status(res)$message)
         res_list[[i]] <- plyr::rbind.fill(
           res_list[[i]],

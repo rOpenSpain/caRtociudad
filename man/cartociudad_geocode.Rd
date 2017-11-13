@@ -4,19 +4,24 @@
 \alias{cartociudad_geocode}
 \title{Interface to Cartociudad geolocation API}
 \usage{
-cartociudad_geocode(full_address, output_format = "JSON", version =
-  c("current", "prev"))
+cartociudad_geocode(full_address, version = c("current", "prev"),
+  output_format = "JSON", on_error = c("warn", "fail"))
 }
 \arguments{
 \item{full_address}{Character string providing the full address to be
 geolocated; e.g., "calle miguel servet 5, zaragoza". Adding the country may
 cause problems.}
 
-\item{output_format}{Character string. Output format of the query: "JSON" or
-"GeoJSON". Only applicable if you choose version = "previous".}
+\item{version}{Character string. Geocoder version to use: \code{current} or
+\code{prev}.}
 
-\item{version}{Character string. Geocoder version to use: "current" or
-"prev".}
+\item{output_format}{Character string. Output format of the query:
+\code{JSON} or \code{GeoJSON}. Only applicable if you choose version =
+"previous".}
+
+\item{on_error}{Character string. Defaults to \code{warn}: in case of errors,
+the function will return an empty \code{data.frame} and a warning. Set it
+to \code{fail} to stop the function call in case of errors in the API call.}
 }
 \value{
 A data frame consisting of a single row per query. See the reference
