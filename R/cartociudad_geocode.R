@@ -11,7 +11,7 @@
 #'   country name.
 #'
 #' @usage cartociudad_geocode(full_address, version = c("current", "prev"),
-#'   output_format = "JSON", on_error = c("warn", "fail"))
+#'   output_format = "JSON", on_error = c("warn", "fail"), ntries = 10)
 #'
 #' @param full_address Character string providing the full address to be
 #'   geolocated; e.g., "calle miguel servet 5, zaragoza". Adding the country may
@@ -20,10 +20,12 @@
 #'   \code{prev}.
 #' @param output_format Character string. Output format of the query:
 #'   \code{JSON} or \code{GeoJSON}. Only applicable if you choose version =
-#'   "previous".
+#'   "current".
 #' @param on_error Character string. Defaults to \code{warn}: in case of errors,
 #'   the function will return an empty \code{data.frame} and a warning. Set it
 #'   to \code{fail} to stop the function call in case of errors in the API call.
+#' @param ntries Numeric. In case of connection failure, number of \code{GET}
+#'   requests to be made before stopping the function call.
 #'
 #' @return A data frame consisting of a single row per query. See the reference
 #'   below for an explanation of the data frame columns.
@@ -47,7 +49,8 @@
 #' @export
 #'
 cartociudad_geocode <- function(full_address, version = c("current", "prev"),
-                                output_format = "JSON", on_error = c("warn", "fail")) {
+                                output_format = "JSON", on_error = c("warn", "fail"),
+                                ntries = 1) {
 
   stopifnot(class(full_address) == "character")
   stopifnot(length(full_address) >= 1)
@@ -55,7 +58,7 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
   on_error   <- match.arg(on_error)
   no_geocode <- which(nchar(full_address) == 0)
   total      <- length(full_address)
-  res_list   <- list(total)
+  res_list   <- vector("list", total)
   curr_names <- c("id", "province", "muni", "tip_via", "address", "portalNumber",
                   "refCatastral", "postalCode", "lat", "lng", "stateMsg",
                   "state", "type")
@@ -67,6 +70,7 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
     matrix(NA_character_, nrow = 0, ncol = length(curr_names), dimnames = list(c(), curr_names)),
     stringsAsFactors = FALSE
   )
+  con_out <- numeric()
 
   for (i in seq_len(total)) {
     res_list[[i]] <- empty_df
@@ -79,8 +83,17 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
         api.args <- list(max_results = 1, address = full_address[i])
         get_url  <- "http://www.cartociudad.es/CartoGeocoder/Geocode"
       }
-      res <- httr::GET(get_url, query = api.args, ua)
-      if (httr::http_error(res)) {
+      res        <- get_ntries(get_url, api.args, ua, ntries)
+
+      if (length(res) == 0) {
+        warning("Failing to connect with server in query ", i,
+                ": try later with addressess in attr(results, 'rerun').")
+        res_list[[i]] <- plyr::rbind.fill(
+          res_list[[i]],
+          data.frame(address = full_address[i], version = version, stringsAsFactors = FALSE)
+        )
+        con_out <- c(con_out, i)
+      } else if (httr::http_error(res)) {
         if (on_error == "fail")
           stop("Call to cartociudad API failed with error code ", res$status_code)
         warning("Error in query ", i, ": ", httr::http_status(res)$message)
@@ -98,7 +111,7 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
           res <- res[[1]]
         }
         if (length(res) == 0) {
-          warning("The query has 0 results.")
+          warning("The query ", i, " has 0 results.")
           res_list[[i]] <- plyr::rbind.fill(
             res_list[[i]],
             data.frame(address = full_address[i], version = version, stringsAsFactors = FALSE)
@@ -115,7 +128,7 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
         }
       }
     } else {
-      warning("Empty string as query: NA returned.")
+      warning("Empty string as query in address ", i, ": NA returned.")
       res_list[[i]] <- empty_df[1, ]
     }
     utils::setTxtProgressBar(pb, i)
@@ -124,5 +137,6 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
   cat("\n")
   results <- plyr::rbind.fill(res_list)
   results[, c("lat", "lng")] <- apply(results[, c("lat", "lng")], 2, as.numeric)
+  attributes(results)$rerun  <- full_address[con_out]
   return(results)
 }
