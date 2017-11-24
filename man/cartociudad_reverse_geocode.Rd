@@ -4,13 +4,16 @@
 \alias{cartociudad_reverse_geocode}
 \title{Reverse geocoding of locations}
 \usage{
-cartociudad_reverse_geocode(latitude, longitude)
+cartociudad_reverse_geocode(latitude, longitude, ntries = 10)
 }
 \arguments{
 \item{latitude}{Point latitude in geographical coordinates (e.g., 40.473219)}
 
 \item{longitude}{Point longitude in geographical coordinates (e.g.,
 -3.7227241)}
+
+\item{ntries}{Numeric. In case of connection failure, number of \code{GET}
+requests to be made before stopping the function call.}
 }
 \value{
 A data frame consisting of a single row per query, with columns:

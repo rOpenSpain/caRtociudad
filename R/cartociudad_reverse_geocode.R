@@ -10,11 +10,13 @@
 #' @details This function performs reverse geocoding of a location. It returns
 #'   the details of the closest address in Spain.
 #'
-#' @usage cartociudad_reverse_geocode(latitude, longitude)
+#' @usage cartociudad_reverse_geocode(latitude, longitude, ntries = 10)
 #'
 #' @param latitude Point latitude in geographical coordinates (e.g., 40.473219)
 #' @param longitude Point longitude in geographical coordinates (e.g.,
 #'   -3.7227241)
+#' @param ntries Numeric. In case of connection failure, number of \code{GET}
+#'   requests to be made before stopping the function call.
 #'
 #' @return A data frame consisting of a single row per query, with columns:
 #' \item{tipo}{type of location.}
@@ -40,7 +42,7 @@
 #'
 #' @export
 #'
-cartociudad_reverse_geocode <- function(latitude, longitude) {
+cartociudad_reverse_geocode <- function(latitude, longitude, ntries = 1) {
 
   stopifnot(length(latitude) == length(longitude) | length(latitude) == 0)
 
@@ -53,8 +55,7 @@ cartociudad_reverse_geocode <- function(latitude, longitude) {
 
   for (i in seq_len(total)) {
     query.parms <- list(lat = latitude[i], lon = longitude[i])
-    res         <- httr::GET(url, query = query.parms, ua)
-
+    res         <- get_ntries(url, query.parms, ua, ntries)
     if (httr::http_error(res)) {
       warning("Error in query ", i, ": ", httr::http_status(res)$message)
       res_list[[i]] <- data.frame(lat = latitude[i], lng = longitude[i],

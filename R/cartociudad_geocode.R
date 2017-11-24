@@ -11,7 +11,7 @@
 #'   country name.
 #'
 #' @usage cartociudad_geocode(full_address, version = c("current", "prev"),
-#'   output_format = "JSON", on_error = c("warn", "fail"))
+#'   output_format = "JSON", on_error = c("warn", "fail"), ntries = 10)
 #'
 #' @param full_address Character string providing the full address to be
 #'   geolocated; e.g., "calle miguel servet 5, zaragoza". Adding the country may
@@ -20,10 +20,12 @@
 #'   \code{prev}.
 #' @param output_format Character string. Output format of the query:
 #'   \code{JSON} or \code{GeoJSON}. Only applicable if you choose version =
-#'   "previous".
+#'   "current".
 #' @param on_error Character string. Defaults to \code{warn}: in case of errors,
 #'   the function will return an empty \code{data.frame} and a warning. Set it
 #'   to \code{fail} to stop the function call in case of errors in the API call.
+#' @param ntries Numeric. In case of connection failure, number of \code{GET}
+#'   requests to be made before stopping the function call.
 #'
 #' @return A data frame consisting of a single row per query. See the reference
 #'   below for an explanation of the data frame columns.
@@ -47,7 +49,8 @@
 #' @export
 #'
 cartociudad_geocode <- function(full_address, version = c("current", "prev"),
-                                output_format = "JSON", on_error = c("warn", "fail")) {
+                                output_format = "JSON", on_error = c("warn", "fail"),
+                                ntries = 1) {
 
   stopifnot(class(full_address) == "character")
   stopifnot(length(full_address) >= 1)
@@ -55,7 +58,7 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
   on_error   <- match.arg(on_error)
   no_geocode <- which(nchar(full_address) == 0)
   total      <- length(full_address)
-  res_list   <- list(total)
+  res_list   <- vector("list", total)
   curr_names <- c("id", "province", "muni", "tip_via", "address", "portalNumber",
                   "refCatastral", "postalCode", "lat", "lng", "stateMsg",
                   "state", "type")
@@ -79,7 +82,8 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
         api.args <- list(max_results = 1, address = full_address[i])
         get_url  <- "http://www.cartociudad.es/CartoGeocoder/Geocode"
       }
-      res <- httr::GET(get_url, query = api.args, ua)
+      res        <- get_ntries(get_url, api.args, ua, ntries)
+
       if (httr::http_error(res)) {
         if (on_error == "fail")
           stop("Call to cartociudad API failed with error code ", res$status_code)
