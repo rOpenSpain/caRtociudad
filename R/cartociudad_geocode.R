@@ -70,6 +70,7 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
     matrix(NA_character_, nrow = 0, ncol = length(curr_names), dimnames = list(c(), curr_names)),
     stringsAsFactors = FALSE
   )
+  con_out <- numeric()
 
   for (i in seq_len(total)) {
     res_list[[i]] <- empty_df
@@ -84,7 +85,15 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
       }
       res        <- get_ntries(get_url, api.args, ua, ntries)
 
-      if (httr::http_error(res)) {
+      if (length(res) == 0) {
+        warning("Failing to connect with server in query ", i,
+                ": try later with addressess in attr(results, 'rerun').")
+        res_list[[i]] <- plyr::rbind.fill(
+          res_list[[i]],
+          data.frame(address = full_address[i], version = version, stringsAsFactors = FALSE)
+        )
+        con_out <- c(con_out, i)
+      } else if (httr::http_error(res)) {
         if (on_error == "fail")
           stop("Call to cartociudad API failed with error code ", res$status_code)
         warning("Error in query ", i, ": ", httr::http_status(res)$message)
@@ -102,7 +111,7 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
           res <- res[[1]]
         }
         if (length(res) == 0) {
-          warning("The query has 0 results.")
+          warning("The query ", i, " has 0 results.")
           res_list[[i]] <- plyr::rbind.fill(
             res_list[[i]],
             data.frame(address = full_address[i], version = version, stringsAsFactors = FALSE)
@@ -119,7 +128,7 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
         }
       }
     } else {
-      warning("Empty string as query: NA returned.")
+      warning("Empty string as query in address ", i, ": NA returned.")
       res_list[[i]] <- empty_df[1, ]
     }
     utils::setTxtProgressBar(pb, i)
@@ -128,5 +137,6 @@ cartociudad_geocode <- function(full_address, version = c("current", "prev"),
   cat("\n")
   results <- plyr::rbind.fill(res_list)
   results[, c("lat", "lng")] <- apply(results[, c("lat", "lng")], 2, as.numeric)
+  attributes(results)$rerun  <- full_address[con_out]
   return(results)
 }
