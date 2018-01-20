@@ -14,3 +14,18 @@ jsonp_to_json <- function(text) {
   text <- gsub("\\)$", "", text)
   return(text)
 }
+
+get_ntries <- function(url, query, ua, tries) {
+  withRestarts(
+    tryCatch(httr::GET(url, query = query, ua),
+             error = function(e) {invokeRestart("retry")}),
+    retry = function() {
+      if (tries <= 0) {
+        return(character())
+      }
+      message("Failing to connect with server: retrying...")
+      Sys.sleep(5)
+      get_ntries(url, query, ua, tries - 1)
+    }
+  )
+}

@@ -4,48 +4,49 @@
 \alias{cartociudad_geocode}
 \title{Interface to Cartociudad geolocation API}
 \usage{
-cartociudad_geocode(full_address, on.error = "fail", ...)
+cartociudad_geocode(full_address, version = c("current", "prev"),
+  output_format = "JSON", on_error = c("warn", "fail"), ntries = 10)
 }
 \arguments{
 \item{full_address}{Character string providing the full address to be
 geolocated; e.g., "calle miguel servet 5, zaragoza". Adding the country may
 cause problems.}
 
-\item{on.error}{Defaults to \code{fail}; in such case, in case of errors in the API call, the process will fail. Set it to
-"warn" and, in case of errors, the function will return \code{NULL} and a warning.}
+\item{version}{Character string. Geocoder version to use: \code{current} or
+\code{prev}.}
 
-\item{...}{Other parameters for the API. See Details section below.}
+\item{output_format}{Character string. Output format of the query:
+\code{JSON} or \code{GeoJSON}. Only applicable if you choose version =
+"current".}
+
+\item{on_error}{Character string. Defaults to \code{warn}: in case of errors,
+the function will return an empty \code{data.frame} and a warning. Set it
+to \code{fail} to stop the function call in case of errors in the API call.}
+
+\item{ntries}{Numeric. In case of connection failure, number of \code{GET}
+requests to be made before stopping the function call.}
 }
 \value{
-A data frame consisting of a single row per guess. See the reference
+A data frame consisting of a single row per query. See the reference
   below for an explanation of the data frame columns.
 }
 \description{
-Geolocation of Spanish addresses via Cartociudad API calls, providing the
-  full address in a single text string via \code{full_address}. It is
-  advisable to add the street type (calle, etc.) and to omit the country
-  name.
-}
-\details{
-The entity geolocation API admits more parameters beyond the address field such as \code{id} or \code{type}. 
-  You can use these extra arguments (see the References or the Examples sections below for further information) 
-  at your own risk.
+Geolocation of Spanish addresses via Cartociudad API calls,
+  providing the full address in a single text string via \code{full_address}.
+  It is advisable to add the street type (calle, etc.) and to omit the
+  country name.
 }
 \examples{
-# standard usage
-res <- cartociudad_geocode(full_address = "plaza de cascorro 11, 28005 madrid")
+# Query a single address
+address <- "plaza de cascorro 11, 28005 madrid"
+my.address <- cartociudad_geocode(full_address = address)
+print(my.address)
 
-#' # km 41 of A-23 motorway
-res <- cartociudad_geocode("A-23 41")
+# Query multiple addresses
+address <- c(address, "plaza del ayunamiento 1, valencia")
+my.address <- cartociudad_geocode(full_address = address)
+print(my.address)
 
-# specific usage (see References for details)
-res <- cartociudad_geocode("A-23 41", type = "portal", id = "600000000045", portal = 41)
-
-# vectorized call
-\dontrun{
-addresses <- paste("A-23", 1:10)
-res <- lapply(addresses, cartociudad_geocode, on.error = "warn")
-}
 }
 \references{
 \url{http://www.cartociudad.es/recursos/Documentacion_tecnica/CARTOCIUDAD_ServiciosWeb.pdf}
