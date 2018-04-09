@@ -5,7 +5,7 @@
 
 get_cartociudad_user_agent <- function() {
   ua <- paste0("caRtociudad/", utils::packageVersion("caRtociudad"),
-               " (https://github.com/cjgb/caRtociudad)")
+               " (https://github.com/rOpenSpain/caRtociudad)")
   return(httr::user_agent(ua))
 }
 
