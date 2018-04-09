@@ -1,12 +1,14 @@
 # caRtociudad
 
+[![Build Status](https://travis-ci.org/rOpenSpain/caRtociudad.svg?branch=master)](https://travis-ci.org/rOpenSpain/caRtociudad)
+
 R package to query [Cartociudad](http://www.cartociudad.es) API. The API is documented [here](http://www.cartociudad.es/recursos/Documentacion_tecnica/CARTOCIUDAD_ServiciosWeb.pdf).
 
 ## Installation
 
 ```
 library(devtools)
-install_github("cjgb/caRtociudad")
+install_github("rOpenSpain/caRtociudad")
 ```
 
 ## Geocoding
@@ -64,6 +66,9 @@ get_cartociudad_location_info(40.473219, -3.7227241)
 ```
 indicates the reverse geocoding details, censal section, censal district, cadastral information and the url to the spanish cadastre website associated to the point.
 
+## Data usage license
+
+The data returned by this package is provided by IGN web services and implies the user's acceptance of a [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) license. More info available [here](http://www.ign.es/web/resources/docs/IGNCnig/FOOT-Condiciones_Uso_eng.pdf).
 
 ## TODO
 

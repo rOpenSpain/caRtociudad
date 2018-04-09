@@ -49,8 +49,8 @@ test_that("get_cartociudad_user_agent returns the package name and github repo u
   httr::stop_for_status(result)
 
   user.agent <- httr::content(result)$"user-agent"
-  expect_that(length(grep("caRtociudad/[0-9.]+",         user.agent)) == 1, is_true())
-  expect_that(length(grep("github.com/cjgb/caRtociudad", user.agent)) == 1, is_true())
+  expect_that(length(grep("caRtociudad/[0-9.]+",               user.agent)) == 1, is_true())
+  expect_that(length(grep("github.com/rOpenSpain/caRtociudad", user.agent)) == 1, is_true())
 })
 
 test_that("get_cartociudad_area with valid parameters returns a polygon", {

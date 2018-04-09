@@ -10,7 +10,7 @@ Description: Access to Cartociudad cartography API, which provides mapping and o
 Imports: httr, jsonlite, xml2, plyr, geosphere
 Depends: R (>= 3.0.0)
 Suggests: ggmap, testthat
-URL: https://github.com/cjgb/caRtociudad
+URL: https://github.com/rOpenSpain/caRtociudad
 License: GPL-3
 LazyLoad: yes
 LazyData: yes
