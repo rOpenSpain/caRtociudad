@@ -5,8 +5,7 @@
 \title{Get a Cartociudad Map}
 \usage{
 get_cartociudadmap(center, radius, add.censal.section = FALSE,
-   layers = c("FondoUrbano", "Vial", "Portal", "Toponimo"),
-   height = 600, width = 600)
+   add.postcode.area = FALSE, height = 600, width = 600)
 }
 \arguments{
 \item{center}{a pair of numbers (latitude and longitude of the center of the
@@ -18,9 +17,9 @@ map)}
 districts to the base map; note that this layer may not be available at low
 zoom levels}
 
-\item{layers}{layers the map should include; Cartociudad API documentation
-lists a number of them, some of which are only available in a limited
-number of provinces}
+\item{add.postcode.area}{whether to add the limit of postal code areas to
+the base map; note that this layer may not be available at low
+zoom levels}
 
 \item{height}{map height in pixels}
 
@@ -43,7 +42,7 @@ This function, similar to \code{get_googlemap} or
 \dontrun{
   soria <- cartociudad_geocode("ayuntamiento soria")
   soria_map <- get_cartociudadmap(c(soria$lat, soria$lng), 1)
-  ggmap(soria_map)
+  ggmap::ggmap(soria_map)
 }
 
 }
