@@ -12,8 +12,9 @@
 #'   \code{get_openstreetmap} downloads a map from Cartociudad API and creates a
 #'   \code{ggmap} compatible version of it.
 #'
-#' @usage get_cartociudadmap(center, radius, add.censal.section = FALSE,
-#'    add.postcode.area = FALSE, height = 600, width = 600)
+#' @usage get_cartociudad_map(center, radius, add.censal.section = FALSE,
+#'    add.postcode.area = FALSE, add.cadastral.layer = FALSE,
+#'    height = 800, width = 1200)
 #'
 #' @param center a pair of numbers (latitude and longitude of the center of the
 #'   map)
@@ -24,6 +25,7 @@
 #' @param add.postcode.area whether to add the limit of postal code areas to
 #'   the base map; note that this layer may not be available at low
 #'   zoom levels
+#' @param add.cadastral.layer whether to add cadastral information
 #' @param height map height in pixels
 #' @param width map width in pixels
 #'
@@ -37,16 +39,17 @@
 #'
 #' @examples
 #' \dontrun{
-#'   soria <- cartociudad_geocode("ayuntamiento soria")
-#'   soria_map <- get_cartociudadmap(c(soria$lat, soria$lng), 1)
+#'   soria <- cartociudad_geocode("plaza de san esteban, soria")
+#'   soria_map <- get_cartociudad_map(c(soria$lat, soria$lng), 1)
 #'   ggmap::ggmap(soria_map)
 #' }
 #'
 #' @export
 #'
-get_cartociudadmap <- function(center, radius, add.censal.section = FALSE,
+get_cartociudad_map <- function(center, radius, add.censal.section = FALSE,
                                add.postcode.area = FALSE,
-                               height = 600, width = 600) {
+                               add.cadastral.layer = FALSE,
+                               height = 800, width = 1200) {
 
   # calculate bobx via an approximation
   delta <- 0.01
@@ -118,6 +121,36 @@ get_cartociudadmap <- function(center, radius, add.censal.section = FALSE,
       bbox        = paste(bbox1, bbox2, bbox3, bbox4, sep = ","))
     my.map <- overlay_wms_map(my.map, url, query)
   }
+  
+  if (add.cadastral.layer) {
+    url <- "http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx"
+    
+    # transform coordinates to new SRS
+    d <- data.frame(Y = c(bbox1, bbox3), X = c(bbox2, bbox4))
+    sp::coordinates(d) <- c("X", "Y")
+    sp::proj4string(d) <- sp::CRS("+init=epsg:4326") 
+    
+    CRS.new <- sp::CRS("+init=epsg:3857") # WGS 84
+    tmp <- sp::spTransform(d, CRS.new)
+    tmp <- tmp@coords
+    
+    new_bbox <- c(tmp[1,1], tmp[1,2], tmp[2,1], tmp[2,2])
+    
+    query <- list(
+      service     = "WMS",
+      version     = "1.1.1",
+      request     = "GetMap",
+      format      = "image/png",
+      transparent = "true",
+      layers      = "CONSTRU,TXTCONSTRU,SUBPARCE,TXTSUBPARCE,PARCELA,TXTPARCELA,MASA,TXTMASA",
+      srs         = "EPSG:3857",
+      styles      = "",
+      width       = width,
+      height      = height,
+      bbox        = paste(new_bbox, collapse = ","))
+    my.map <- overlay_wms_map(my.map, url, query)
+  }
+  
   
   # my.map <- t(apply(my.map, 2, rgb))
   my.map <- grDevices::rgb(my.map[, , 1], my.map[, , 2],
