@@ -122,7 +122,8 @@ get_cartociudadmap <- function(center, radius, add.censal.section = FALSE,
   # my.map <- t(apply(my.map, 2, rgb))
   my.map <- grDevices::rgb(my.map[, , 1], my.map[, , 2],
                            my.map[, , 3], my.map[, , 4])
-  my.map <- t(matrix(my.map, height, width))
+  my.map <- t(matrix(my.map, width, height, byrow = TRUE))
+  my.map <- grDevices::as.raster(my.map)
 
   class(my.map) <- c("ggmap", "raster")
   attr(my.map, "bb") <- data.frame(ll.lat = bbox1, ll.lon = bbox2,
