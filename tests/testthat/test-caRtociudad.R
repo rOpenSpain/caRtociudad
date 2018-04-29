@@ -45,7 +45,7 @@ test_that("cartociudad_reverse_geocode returns an address for a valid location",
 
 test_that("get_cartociudad_user_agent returns the package name and github repo url", {
   ua <- get_cartociudad_user_agent()
-  result <- httr::GET("http://httpbin.org/user-agent", ua)
+  result <- httr::GET("http://eu.httpbin.org/user-agent", ua)
   httr::stop_for_status(result)
 
   user.agent <- httr::content(result)$"user-agent"
