@@ -25,7 +25,9 @@ This function calculates the area given a point and a radius in
   meters
 }
 \examples{
+\dontrun{
 get_cartociudad_area(40.3930144, -3.6596683, 500)
+}
 
 }
 \references{

@@ -41,7 +41,9 @@ This function consults administrative information for a point within
   to greater changes over the years.
 }
 \examples{
+\dontrun{
 get_cartociudad_location_info(40.473219, -3.7227241)
+}
 
 }
 \references{

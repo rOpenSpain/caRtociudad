@@ -23,9 +23,11 @@ Cartociudad API provides driving and walking routes between two
   convenient form.
 }
 \examples{
+\dontrun{
 res <- get_cartociudad_route(c(39.48,-0.37),
    c(39.484336,-0.358171),
    vehicle = "car")
+}
 
 }
 \references{
