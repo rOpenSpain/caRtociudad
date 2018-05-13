@@ -30,25 +30,8 @@
 #' @export
 #'
 get_cartociudad_area <- function(latitude, longitude, radius) {
-  query.parms <- list(
-    lat = latitude,
-    lon = longitude,
-    dist = radius
-  )
-
-  url <- "http://www.cartociudad.es/services/api/serviceArea"
-  ua <- get_cartociudad_user_agent()
-  res <- httr::GET(url, query = query.parms, ua)
-  httr::stop_for_status(res)
-  info <- httr::content(res)
-
-  # Parse the response
-  polygon <- info$coordinates
-  if (!is.null(polygon)) {
-    result <- data.frame(matrix(unlist(polygon), nrow = length(polygon[[1]]), byrow = TRUE))
-    colnames(result) <- c("longitude", "latitude")
-  } else {
-    result <- data.frame(latitude = numeric(0), longitude = numeric(0))
-  }
-  return(result)
+  
+  .Deprecated("cartociudad_get_area")
+  
+  cartociudad_get_area(latitude, longitude, radius)
 }

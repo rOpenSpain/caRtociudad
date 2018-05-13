@@ -7,14 +7,14 @@ test_that("cartociudad_geocode returns the location of a full address", {
 })
 
 test_that("get_cartociudad_map returns a map for a valid location", {
-  map <- get_cartociudad_map(c(40.41137, -3.707168), 1)
+  map <- cartociudad_get_map(c(40.41137, -3.707168), 1)
 
   expect_that(map, is_a("raster"))
   expect_that(map, is_a("ggmap"))
 })
 
 test_that("get_cartociudad_location_info returns info for a valid location", {
-  result <- get_cartociudad_location_info(40.473219, -3.7227241)
+  result <- cartociudad_get_location_info(40.473219, -3.7227241)
 
   expect_that(!is.null(result$seccion),           is_true())
   expect_that(!is.null(result$distrito),          is_true())
@@ -54,7 +54,7 @@ test_that("get_cartociudad_user_agent returns the package name and github repo u
 })
 
 test_that("get_cartociudad_area with valid parameters returns a polygon", {
-  result <- get_cartociudad_area(40.3930144, -3.6596683, 500)
+  result <- cartociudad_get_area(40.3930144, -3.6596683, 500)
 
   expect_that(nrow(result) > 2, is_true())
 })

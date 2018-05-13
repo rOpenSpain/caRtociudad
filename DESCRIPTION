@@ -1,8 +1,8 @@
 Package: caRtociudad
 Type: Package
 Title: Interface to Cartociudad API
-Version: 0.6.1
-Date: 2018-04-29
+Version: 0.6.2
+Date: 2018-05-13
 Encoding: UTF-8
 Authors@R: c(person("Carlos J.", "Gil Bellosta", email="cgb@datanalytics.com", role=c('cre', 'aut')),
               person("Luz", "Frías", email = "luzfrias@gmail.com", role = "aut")) 
