@@ -25,7 +25,9 @@
 #' \url{http://www.cartociudad.es/recursos/Documentacion_tecnica/CARTOCIUDAD_ServiciosWeb.pdf}
 #'
 #' @examples
+#' \dontrun{
 #' get_cartociudad_area(40.3930144, -3.6596683, 500)
+#' }
 #'
 #' @export
 #'

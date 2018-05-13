@@ -24,10 +24,12 @@
 #' @usage get_cartociudad_route(latlon.orig, latlon.dest, vehicle = "car")
 #'
 #' @examples
+#' \dontrun{
 #' res <- get_cartociudad_route(c(39.48,-0.37),
 #'    c(39.484336,-0.358171),
 #'    vehicle = "car")
-#'
+#' }
+#' 
 #' @export
 #'
 get_cartociudad_route <- function(latlon.orig, latlon.dest, vehicle = "car"){

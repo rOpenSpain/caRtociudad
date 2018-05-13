@@ -141,8 +141,10 @@
 #'   at \url{http://goo.gl/5JAd9N}.
 #'
 #' @examples
+#' \dontrun{
 #' get_cartociudad_location_info(40.473219, -3.7227241)
-#'
+#' }
+#' 
 #' @export
 #'
 get_cartociudad_location_info <- function(latitude, longitude, year = 2016,
