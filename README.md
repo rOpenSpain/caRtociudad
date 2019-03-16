@@ -33,11 +33,11 @@ Function `get_cartociudadmap` downloads static maps from Cartociudad servers and
 
 ```
 soria <- cartociudad_geocode("ayuntamiento soria")
-soria_map <- get_cartociudadmap(c(soria$lat, soria$lng), 1)
+soria_map <- cartociudad_get_map(c(soria$lat, soria$lng), 1)
 ggmap::ggmap(soria_map)
 ```
 
-Cartociudad maps can include different kinds of layers, such as postal codes or cadastral references. The full list of available layers can be consulted in the [API reference manual](http://www.cartociudad.es/recursos/Documentacion_tecnica/CARTOCIUDAD_ServiciosWeb.pdf). 
+Cartociudad maps can include different kinds of layers, such as postal codes or cadastral references. The full list of available layers can be consulted in the [API reference manual](http://www.cartociudad.es/recursos/Documentacion_tecnica/CARTOCIUDAD_ServiciosWeb.pdf).
 
 ## Area
 
@@ -49,8 +49,8 @@ library(ggmap)
 
 vallecas.lat <- 40.3930144
 vallecas.lon <- -3.6596683
-map <- get_cartociudadmap(c(vallecas.lat, vallecas.lon), 1)
-polygon <- get_cartociudad_area(vallecas.lat, vallecas.lon, 500)
+map <- cartociudad_get_map(c(vallecas.lat, vallecas.lon), 1)
+polygon <- cartociudad_get_area(vallecas.lat, vallecas.lon, 500)
 ggmap(map) +
   geom_polygon(data = polygon, aes(x = longitude, y = latitude), colour = "red", fill = NA)
 ```
