@@ -4,6 +4,13 @@
 
 R package to query [Cartociudad](http://www.cartociudad.es) API. The API is documented [here](http://www.cartociudad.es/recursos/Documentacion_tecnica/CARTOCIUDAD_ServiciosWeb.pdf).
 
+The Cartociudad API provides geograhical services not unlike Google Maps (geocoding, reverse geocoding, routes, maps, etc.). The major differences are:
+
+* Cartociudad only covers Spain.
+* As opposed to other services, such as Google Maps, the service is unlimited and free. There are no quota limits or API registration procedures.
+
+The package has been designed to be as compatible as possible with well known R libraries, such as `ggmap`.
+
 ## Installation
 
 ```
