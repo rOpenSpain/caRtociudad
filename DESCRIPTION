@@ -1,18 +1,33 @@
-Package: caRtociudad
 Type: Package
+Package: caRtociudad
 Title: Interface to Cartociudad API
 Version: 0.6.2
-Date: 2018-05-13
-Encoding: UTF-8
-Authors@R: c(person("Carlos J.", "Gil Bellosta", email="cgb@datanalytics.com", role=c('cre', 'aut')),
-              person("Luz", "Frías", email = "luzfrias@gmail.com", role = "aut")) 
-Description: Access to Cartociudad cartography API, which provides mapping and other related services for Spain.
-Imports: httr, jsonlite, xml2, plyr, geosphere, sp
-Depends: R (>= 3.0.0)
-Suggests: ggmap, testthat
-URL: https://github.com/rOpenSpain/caRtociudad
+Authors@R: 
+    c(person(given = "Carlos J.",
+             family = "Gil Bellosta",
+             role = c("cre", "aut"),
+             email = "cgb@datanalytics.com"),
+      person(given = "Luz",
+             family = "Frías",
+             role = "aut",
+             email = "luzfrias@gmail.com"))
+Description: Access to Cartociudad cartography API, which provides mapping
+    and other related services for Spain.
 License: GPL-3
-LazyLoad: yes
-LazyData: yes
-RoxygenNote: 6.0.1
+URL: https://github.com/rOpenSpain/caRtociudad
+Depends: 
+    R (>= 3.0.0)
+Imports: 
+    geosphere,
+    httr,
+    jsonlite,
+    plyr,
+    sp,
+    xml2
+Suggests: 
+    ggmap,
+    testthat (>= 3.0.0)
 ByteCompile: yes
+Config/testthat/edition: 3
+Encoding: UTF-8
+RoxygenNote: 7.1.1
