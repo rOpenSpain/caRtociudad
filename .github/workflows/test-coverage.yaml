@@ -1,13 +1,17 @@
 on:
   push:
     branches:
-      - main
       - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
 
-name: rostemplate-gh-pages
+name: test-coverage
 
 jobs:
-  rostemplate-gh-pages:
+  test-coverage:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -21,7 +25,6 @@ jobs:
       - name: Query dependencies
         run: |
           install.packages('remotes')
-          install.packages('devtools')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
@@ -36,15 +39,9 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_github("ropenspain/rostemplate", dependencies = TRUE, force = TRUE)
-
+          remotes::install_cran("covr")
         shell: Rscript {0}
 
-      - name: Install package
-        run: R CMD INSTALL .
-
-      - name: Deploy package
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE, clean = TRUE)'
+      - name: Test coverage
+        run: covr::codecov()
+        shell: Rscript {0}
