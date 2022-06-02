@@ -65,6 +65,19 @@ cartociudad_geocode <- function(full_address, on.error = "fail", ...) {
   
   res <- jsonp_to_json(httr::content(res, as = "text", encoding = "UTF8"))
   res <- jsonlite::fromJSON(res)
+
+  # fix on 2022-06-02: when an address is not found, the API does not fail but
+  # returns an empty list
+  if (length(res) == 0) {
+    msg <- paste0("Call to cartociudad API for address '", full_address, "' failed") 
+
+    if (on.error == "fail")
+      stop(msg)
+
+    warning(msg)
+    return(NULL)
+  }
+
   res <- as.data.frame(t(unlist(res)), stringsAsFactors = FALSE)
   
   res$lat <- as.numeric(res$lat)
